@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: skyblue;
+            padding: 20px;
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+        }
+        /* Task list styling */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center; /* Centering the list */
+        }
+        li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex; /* Flex for visual enhancement */
+            justify-content: space-between; /* Spacing between content */
+            align-items: center; /* Align items vertically */
+        }
+        .delete-link {
+            color: red;
+            font-weight: bold;
+        }
+        /* Add New Task form styling */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            margin: 0 auto; /* Centering the form */
+            text-align: center; /* Centering form content */
+            border: 2px solid #333; /* Dark border */
+        }
+        input[type="text"], button {
+            width: calc(100% - 16px); /* Adjusted width */
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task List</h1>
+    <div>
+        <ul>
+            {% if tasks %}
+                {% for task in tasks %}
+                <li>
+                    <div>
+                        <strong>Title:</strong> {{ task.title }}<br>
+                        <strong>Description:</strong> {{ task.details }}
+                    </div>
+                    <a href="{% url 'delete_task' task.id %}" class="delete-link">Delete</a>
+                </li>
+                {% endfor %}
+            {% else %}
+                <h3>No tasks yet</h3>
+            {% endif %}
+        </ul>
+    </div>
+    <h1>Add Task</h1>
+    <form method="post" action="/" style="margin: 20px auto;">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Enter a Title" required><br>
+        <input type="text" name="details" placeholder="Enter details" required><br>
+        <button type="submit">Add Task</button>
+    </form>
+</body>
+</html>
